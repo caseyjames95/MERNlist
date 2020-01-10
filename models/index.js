@@ -1,5 +1,5 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = {
-  ToDo: require('./ToDo.js')(model, Schema)
+  Task: require('./Task.js')(model, Schema)
 }
