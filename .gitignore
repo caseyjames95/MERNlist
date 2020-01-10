@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-node_modules
-=======
  Created by https://www.gitignore.io/api/node
 # Edit at https://www.gitignore.io/?templates=node
 
@@ -111,5 +108,4 @@ tmp/
 temp/
 
 # End of https://www.gitignore.io/api/node
->>>>>>> 98d24132b4d8634aa60ea681af28d0fb8e449c54
 node_modules
