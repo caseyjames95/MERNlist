@@ -1,6 +1,6 @@
 module.exports = (model, Schema) => {
   const Task = new Schema({
-    item: String,
+    task: String,
     assignedTo: String,
     status: String
   })
