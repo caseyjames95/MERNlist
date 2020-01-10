@@ -3,7 +3,7 @@ const { ToDo } = require('../models')
 module.exports = app => {
   app.post('/items', (req, res) =>{
     ToDo.create(req.body)
-    .then(() => res.sendStatus(200))
+    .then( response => res.json(response) )
     .catch(e => console.error(e))
   })
   app.get('/items', (req, res) => {
@@ -13,7 +13,12 @@ module.exports = app => {
   })
   app.delete('/items/:id', (req, res) => {
     ToDo.deleteOne( { _id: req.params.id } ) // Get the row of the task of the ID.
-      .then(() => res.sendStatus(200))
+      .then( response => res.json(response) )
+      .catch(e => console.error(e))
+  })
+  app.put('/items/:id', (req, res) => {
+    ToDo.updateOne({ _id: req.params.id}, { $set: req.body})
+      .then( response => res.json(response) )
       .catch(e => console.error(e))
   })
 }
