@@ -4,50 +4,48 @@ import TaskContext from '../../utils/TaskContext'
 import TaskForm from '../../components/TaskForm'
 import TaskDisplay from '../../components/TaskDisplay'
 
-class Tasks extends React.Component {
-  state = {
+const Tasks = () => {
+
+  const [taskState, setTaskState] = React.useState({
     task: '',
     assignedTo: '',
     status: '',
-    tasks: [],
-    inputChange: e => {
-      this.setState({ [e.target.name]: e.target.value })
-    },
-    taskSubmit: e => {
-      e.preventDefault()
-      //this.setState({ [e.target.name]: e.target.value })
-      axios.post(`/task`, {
-        task: this.state.task,
-        assignedTo: this.state.assignedTo,
-        status: this.state.status
-      })
-        .then( ({data}) => {
-          let arr = JSON.parse(JSON.stringify(this.state.tasks))
-          arr.push(data)
-          this.setState({ tasks: arr, task: '', assignedTo: '', status: ''  })
-        })
-    },
-    getTasks: () => {
-      console.log('running getTasks')
-      axios.get('/tasks')
-        .then( ({data}) => {
-          let arr = JSON.parse(JSON.stringify(this.state.tasks))
-          arr = data
-          this.setState({ tasks: arr})
-        })
-    }
+    tasks: []
+  })
+  taskState.inputChange = e => {
+    setTaskState({ ...taskState, [e.target.name]: e.target.value })
   }
 
-  render () {
-    return (
-      <TaskContext.Provider value={this.state}>
-        <div className="container">
-          <TaskForm />
-          <TaskDisplay />
-        </div>
-      </TaskContext.Provider>
-    )
+  taskState.taskSubmit = e => {
+    e.preventDefault()
+    axios.post(`/task`, {
+      task: taskState.task,
+      assignedTo: taskState.assignedTo,
+      status: taskState.status
+    })
+      .then(({ data }) => {
+        let tasks = JSON.parse(JSON.stringify(taskState.tasks))
+        tasks.push(data)
+        setTaskState({ ...taskState, tasks, task: '', assignedTo: '', status: '' })
+      })
   }
+
+  React.useEffect(() => {
+    axios.get('/tasks')
+      .then(({ data }) => {
+        setTaskState({ ...taskState, tasks: data })
+      })
+      .catch(e => console.error(e))
+  }, [])
+
+  return (
+    <TaskContext.Provider value={taskState}>
+      <div className="container">
+        <TaskForm />
+        <TaskDisplay />
+      </div>
+    </TaskContext.Provider>
+  )
 }
 
 export default Tasks
