@@ -26,25 +26,19 @@ class Tasks extends React.Component {
           arr.push(data)
           this.setState({ tasks: arr, task: '', assignedTo: '', status: ''  })
         })
-    },
-    getTasks: () => {
-      console.log('running getTasks')
-      axios.get('/tasks')
-        .then( ({data}) => {
-          let arr = JSON.parse(JSON.stringify(this.state.tasks))
-          arr = data
-          this.setState({ tasks: arr})
-        })
     }
+  }
+
+  componentDidMount() { // When the page loads grab the data from the database and update the tasks array
+    axios.get('/tasks')
+      .then( ({data}) => this.setState({ tasks: data }))
   }
 
   render () {
     return (
       <TaskContext.Provider value={this.state}>
-        <div className="container">
           <TaskForm />
           <TaskDisplay />
-        </div>
       </TaskContext.Provider>
     )
   }

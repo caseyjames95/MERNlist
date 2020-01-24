@@ -6,7 +6,7 @@ const TaskDisplay = () => {
   return (
     <TaskContext.Consumer>
       {
-        ({tasks, getTasks}) => (
+        ({tasks}) => (
           <>
             <Table dark>
               <thead>
@@ -19,7 +19,7 @@ const TaskDisplay = () => {
                   <th><h4>Last Updated:</h4></th>
                 </tr>
               </thead>
-              <tbody onLoad={getTasks}>
+              <tbody>
                   {
                     tasks.map( ( { _id, task, assignedTo, status, createdAt, updatedAt}, i) =>
                       <tr key={_id}>
